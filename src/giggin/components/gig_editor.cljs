@@ -11,7 +11,7 @@
 
 
 (defn gig-editor
-  [modal values]
+  [modal values insert-gig]
   [:div.modal (when @modal {:class "active"})
    [:div.modal__overlay]
    [:div.modal__container
@@ -42,4 +42,4 @@
 
     [:div.modal__footer
      [:button.btn.btn--link.float--left {:on-click #(reset! modal false)} "Cancel"]
-     [:button.btn.btn=-secondary "Save"]]]])
+     [:button.btn.btn=-secondary {:on-click #(insert-gig @values)} "Save"]]]])
