@@ -11,35 +11,36 @@
 
 
 (defn gig-editor
-  [modal values upsert-gig toggle-modal]
+  [{:keys [modal values upsert-gig toggle-modal]}]
+ (let [{:keys [title desc img price sold-out inital-values]} @values]
   [:div.modal (when (:active @modal) {:class "active"})
    [:div.modal__overlay]
    [:div.modal__container
     [:div.modal__body
      [form-group {:id "title"
                   :type "text"
-                  :value (:title @values)
+                  :value title
                   :values values}]
      [form-group {:id "desc"
                   :type "text"
-                  :value (:desc @values)
+                  :value desc
                   :values values}]
      [form-group {:id "img"
                   :type "text"
-                  :value (:img @values)
+                  :value img
                   :values values}]
      [form-group {:id "price"
                   :type "number"
-                  :value (:price @values)
+                  :value price
                   :values values}]
      [:div.form__group
       [:label.form__label {:for "sold-out"} "sold-out"]
       [:label.form__switch
        [:input {:type :checkbox
-                :checked (:sold-out @values)
+                :checked sold-out
                 :on-change #(swap! values assoc :sold-out (.. % -target -checked))}]
        [:i.form__icon]]]]
 
     [:div.modal__footer
-     [:button.btn.btn--link.float--left {:on-click #(toggle-modal {:active false :gig {}})} "Cancel"]
-     [:button.btn.btn=-secondary {:on-click #(upsert-gig @values)} "Save"]]]])
+     [:button.btn.btn--link.float--left {:on-click #(toggle-modal {:active false :gig inital-values})} "Cancel"]
+     [:button.btn.btn=-secondary {:on-click #(upsert-gig @values)} "Save"]]]]))
